@@ -73,7 +73,7 @@ CONFIG_SCHEMA = vol.Schema(
 
 SERVICE_SCHEMA_SEND_MESSAGE = vol.Schema(
     {
-        vol.Required(ATTR_MESSAGE): cv.string,
+        vol.Optional(ATTR_MESSAGE): cv.string,
         vol.Optional(ATTR_DATA): {
             vol.Optional(ATTR_IMAGES): vol.All(cv.ensure_list, [cv.string]),
         },
@@ -376,7 +376,7 @@ class MatrixBot:
         for target_room in target_rooms:
             try:
                 room = self._join_or_get_room(target_room)
-                if message is not None:
+                if message is not None and message != "":
                     _LOGGER.debug(room.send_text(message))
             except MatrixRequestError as ex:
                 _LOGGER.error(
